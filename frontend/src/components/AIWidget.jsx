@@ -11,6 +11,7 @@ const getRandomQuestions = (allQuestions) => {
 const AIWidget = () => {
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isAndroidWebView, setIsAndroidWebView] = useState(false);
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
@@ -29,11 +30,17 @@ const AIWidget = () => {
 
   const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
 
-  // Track window resize for responsive behavior
+  // Track window resize for responsive behavior + Detect Android WebView
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
+    
+    // Detect Android WebView
+    const isAndroid = /Android/.test(navigator.userAgent);
+    const isWebView = /wv/.test(navigator.userAgent) || /WebView/.test(navigator.userAgent);
+    setIsAndroidWebView(isAndroid && isWebView);
+    
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -138,13 +145,14 @@ const AIWidget = () => {
     }
   };
 
-  // Responsive dimensions
+  // Responsive dimensions - Android WebView optimized
   const widgetStyles = {
-    position: isMobile ? 'fixed' : 'fixed',
+    position: 'fixed',
     bottom: isMobile ? '0' : '20px',
     right: isMobile ? '0' : '20px',
     width: isMobile ? '100%' : '550px',
     height: isMobile ? '100vh' : '700px',
+    maxHeight: isMobile ? '100vh' : '700px',
     borderRadius: isMobile ? '0' : '20px',
     background: 'rgba(15, 23, 42, 0.95)',
     backdropFilter: 'blur(18px)',
@@ -156,6 +164,10 @@ const AIWidget = () => {
     color: '#e5e7eb',
     fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
     overflow: 'hidden',
+    WebkitBackfaceVisibility: 'hidden', // Android fix
+    backfaceVisibility: 'hidden', // Android fix
+    transform: 'translateZ(0)', // Android GPU acceleration
+    WebkitTransform: 'translateZ(0)',
   };
 
   return (
