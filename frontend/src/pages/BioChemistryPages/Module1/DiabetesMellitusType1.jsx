@@ -1,0 +1,452 @@
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import Navbar from "../../../components/Navbar";
+
+const DiabetesMellitusType1 = () => {
+  const [theme, setTheme] = useState("light");
+  const isDark = theme === "dark";
+
+  const toggleTheme = () =>
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+
+  const pageVariants = {
+    hidden: { opacity: 0, y: 24 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 16 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: 0.1 * i, duration: 0.35, ease: "easeOut" },
+    }),
+  };
+
+  return (
+    <div
+      className={`min-h-screen transition-colors duration-300 ${
+        isDark ? "bg-slate-950 text-slate-50" : "bg-slate-50 text-slate-900"
+      }`}
+    >
+      {/* Navbar at top */}
+      <Navbar />
+
+      <motion.div
+        className="mx-auto max-w-6xl px-4 pb-16 pt-4 sm:px-6 lg:px-8 lg:pt-6"
+        variants={pageVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {/* Top bar / title */}
+        <div className="mb-6 flex items-center justify-between gap-4">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-500">
+              Biochemistry • Carbohydrate metabolism
+            </p>
+            <h1 className="mt-1 text-2xl font-bold sm:text-3xl lg:text-4xl">
+              Diabetes Mellitus Type 1
+            </h1>
+            <p
+              className={`mt-2 text-sm sm:text-base ${
+                isDark ? "text-slate-300" : "text-slate-600"
+              }`}
+            >
+              Definition, etiology, key clinical features, major complications,
+              and brief principles of management.
+            </p>
+          </div>
+
+          {/* Theme toggle */}
+          <button
+            onClick={toggleTheme}
+            className={`flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold transition ${
+              isDark
+                ? "border-slate-600 bg-slate-900 text-slate-100 hover:border-emerald-400"
+                : "border-slate-200 bg-white text-slate-800 hover:border-sky-300"
+            }`}
+          >
+            <span
+              className={`inline-flex h-4 w-4 items-center justify-center rounded-full text-[10px] ${
+                isDark ? "bg-slate-800" : "bg-yellow-300"
+              }`}
+            >
+              {isDark ? "🌙" : "☀️"}
+            </span>
+            {isDark ? "Dark mode" : "Light mode"}
+          </button>
+        </div>
+
+        {/* Hero: definition + key idea */}
+        <section
+          className={`grid gap-6 rounded-3xl border p-5 shadow-sm md:grid-cols-[3fr,2fr] ${
+            isDark
+              ? "border-slate-700 bg-slate-900/70"
+              : "border-slate-200 bg-white"
+          }`}
+        >
+          <div className="flex flex-col justify-center">
+            <h2 className="text-lg font-semibold sm:text-xl">
+              Definition and core concept
+            </h2>
+            <p
+              className={`mt-2 text-sm sm:text-base ${
+                isDark ? "text-slate-300" : "text-slate-700"
+              }`}
+            >
+              Diabetes mellitus type 1 is a chronic autoimmune disease in which
+              the immune system destroys insulin‑producing β‑cells in the
+              pancreas, leading to near‑absolute insulin deficiency and
+              persistent hyperglycaemia.
+            </p>
+
+            <div className="mt-4 grid gap-3 text-xs sm:grid-cols-3 sm:text-sm">
+              <div
+                className={`rounded-2xl p-3 ${
+                  isDark ? "bg-slate-800/80" : "bg-emerald-50"
+                }`}
+              >
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-emerald-500">
+                  Typical onset
+                </p>
+                <p>Childhood, adolescence, or young adults, but can occur at any age.</p>
+              </div>
+              <div
+                className={`rounded-2xl p-3 ${
+                  isDark ? "bg-slate-800/80" : "bg-sky-50"
+                }`}
+              >
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-sky-500">
+                  Key defect
+                </p>
+                <p>Autoimmune β‑cell destruction → very low or no endogenous insulin.</p>
+              </div>
+              <div
+                className={`rounded-2xl p-3 ${
+                  isDark ? "bg-slate-800/80" : "bg-amber-50"
+                }`}
+              >
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-amber-500">
+                  Lifelong need
+                </p>
+                <p>Requires lifelong insulin therapy and glucose monitoring.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Small summary card */}
+          <div
+            className={`rounded-2xl border text-xs sm:text-sm ${
+              isDark
+                ? "border-slate-700 bg-slate-900/80 text-slate-200"
+                : "border-slate-200 bg-slate-50 text-slate-700"
+            }`}
+          >
+            <div className="border-b px-4 py-2 text-[11px] font-semibold uppercase tracking-wide text-emerald-500 border-slate-700/60">
+              Quickly remember
+            </div>
+            <div className="p-4 space-y-2">
+              <p>Autoimmune β‑cell destruction.</p>
+              <p>Absolute insulin deficiency.</p>
+              <p>Prone to ketoacidosis if untreated.</p>
+              <p>Needs exogenous insulin from diagnosis.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Content layout: main concepts + side recap */}
+        <div className="mt-8 grid gap-6 lg:grid-cols-[3fr,2fr]">
+          {/* Left: teaching blocks */}
+          <div className="space-y-6">
+            {/* 1. Etiology and pathogenesis */}
+            <motion.section
+              custom={0}
+              variants={cardVariants}
+              initial="hidden"
+              animate="visible"
+              className={`rounded-3xl p-5 shadow-sm ${
+                isDark
+                  ? "border border-slate-700 bg-slate-900/80"
+                  : "border border-slate-200 bg-white"
+              }`}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <h2 className="text-lg font-semibold">
+                  1. Etiology and basic pathogenesis
+                </h2>
+                <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-500">
+                  why it occurs
+                </span>
+              </div>
+
+              <p
+                className={`mt-3 text-sm ${
+                  isDark ? "text-slate-300" : "text-slate-700"
+                }`}
+              >
+                Type 1 diabetes develops in genetically susceptible individuals
+                when an autoimmune process targets pancreatic β‑cells.
+                Environmental triggers are thought to initiate or accelerate this
+                immune response.
+              </p>
+
+              <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+                <div
+                  className={`rounded-2xl p-3 ${
+                    isDark ? "bg-slate-800/80" : "bg-emerald-50"
+                  }`}
+                >
+                  <p className="text-xs font-semibold uppercase tracking-wide text-emerald-500">
+                    Etiology (simplified)
+                  </p>
+                  <ul className="mt-1 space-y-1 list-disc pl-4">
+                    <li>
+                      Autoimmune destruction of β‑cells mediated by T
+                      lymphocytes and autoantibodies.
+                    </li>
+                    <li>
+                      Strong association with certain HLA class II genotypes and
+                      other susceptibility genes.
+                    </li>
+                    <li>
+                      Possible environmental triggers include viral infections
+                      and other factors in early life.
+                    </li>
+                  </ul>
+                </div>
+
+                <div
+                  className={`rounded-2xl p-3 ${
+                    isDark ? "bg-slate-800/80" : "bg-sky-50"
+                  }`}
+                >
+                  <p className="text-xs font-semibold uppercase tracking-wide text-sky-500">
+                    Pathogenesis outline
+                  </p>
+                  <ul className="mt-1 space-y-1 list-disc pl-4">
+                    <li>Progressive loss of β‑cell mass over months to years.</li>
+                    <li>
+                      Insulin secretion falls; hyperglycaemia appears when most
+                      β‑cells are destroyed.
+                    </li>
+                    <li>
+                      Absolute insulin deficiency leads to increased lipolysis
+                      and ketone body production if not treated.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </motion.section>
+
+            {/* 2. Clinical features */}
+            <motion.section
+              custom={1}
+              variants={cardVariants}
+              initial="hidden"
+              animate="visible"
+              className={`rounded-3xl p-5 shadow-sm ${
+                isDark
+                  ? "border border-slate-700 bg-slate-900/80"
+                  : "border border-slate-200 bg-white"
+              }`}
+            >
+              <h2 className="text-lg font-semibold">
+                2. Clinical features (typical presentation)
+              </h2>
+
+              <p
+                className={`mt-3 text-sm ${
+                  isDark ? "text-slate-300" : "text-slate-700"
+                }`}
+              >
+                Many patients, especially children, present over days to weeks
+                with symptoms of marked hyperglycaemia and sometimes acute
+                metabolic decompensation.
+              </p>
+
+              <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+                <div
+                  className={`rounded-2xl p-3 ${
+                    isDark ? "bg-slate-800/80" : "bg-emerald-50"
+                  }`}
+                >
+                  <p className="text-xs font-semibold uppercase tracking-wide text-emerald-500">
+                    Classic symptoms
+                  </p>
+                  <ul className="mt-1 space-y-1 list-disc pl-4">
+                    <li>Polyuria (frequent urination).</li>
+                    <li>Polydipsia (increased thirst).</li>
+                    <li>Polyphagia (increased hunger) with weight loss.</li>
+                    <li>Fatigue, weakness, sometimes blurred vision.</li>
+                  </ul>
+                </div>
+
+                <div
+                  className={`rounded-2xl p-3 ${
+                    isDark ? "bg-slate-800/80" : "bg-rose-50"
+                  }`}
+                >
+                  <p className="text-xs font-semibold uppercase tracking-wide text-rose-500">
+                    Acute severe presentation
+                  </p>
+                  <ul className="mt-1 space-y-1 list-disc pl-4">
+                    <li>
+                      Diabetic ketoacidosis (DKA): abdominal pain, vomiting,
+                      Kussmaul breathing, dehydration, fruity odour on breath,
+                      altered consciousness.
+                    </li>
+                    <li>
+                      Often precipitated by infection or missed insulin in an
+                      already diabetic individual or first presentation.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </motion.section>
+
+            {/* 3. Complications and brief management */}
+            <motion.section
+              custom={2}
+              variants={cardVariants}
+              initial="hidden"
+              animate="visible"
+              className={`rounded-3xl p-5 shadow-sm ${
+                isDark
+                  ? "border border-slate-700 bg-slate-900/80"
+                  : "border border-slate-200 bg-white"
+              }`}
+            >
+              <h2 className="text-lg font-semibold">
+                3. Complications and brief management
+              </h2>
+
+              <p
+                className={`mt-3 text-sm ${
+                  isDark ? "text-slate-300" : "text-slate-700"
+                }`}
+              >
+                Good long‑term outcomes depend on preventing acute crises and
+                reducing chronic complications through careful glucose
+                management and regular follow‑up.
+              </p>
+
+              <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+                <div
+                  className={`rounded-2xl p-3 ${
+                    isDark ? "bg-slate-800/80" : "bg-amber-50"
+                  }`}
+                >
+                  <p className="text-xs font-semibold uppercase tracking-wide text-amber-500">
+                    Complications (exam‑level list)
+                  </p>
+                  <ul className="mt-1 space-y-1 list-disc pl-4">
+                    <li>
+                      Acute: diabetic ketoacidosis, severe hypoglycaemia
+                      (especially with excess insulin or missed meals).
+                    </li>
+                    <li>
+                      Chronic microvascular: diabetic retinopathy, nephropathy,
+                      neuropathy.
+                    </li>
+                    <li>
+                      Chronic macrovascular: accelerated atherosclerosis leading
+                      to coronary artery disease, stroke, peripheral vascular
+                      disease.
+                    </li>
+                  </ul>
+                </div>
+
+                <div
+                  className={`rounded-2xl p-3 ${
+                    isDark ? "bg-slate-800/80" : "bg-teal-50"
+                  }`}
+                >
+                  <p className="text-xs font-semibold uppercase tracking-wide text-teal-500">
+                    Brief management outline
+                  </p>
+                  <ul className="mt-1 space-y-1 list-disc pl-4">
+                    <li>
+                      Lifelong insulin therapy: basal–bolus regimens or insulin
+                      pump; dose adjusted to diet, activity, and glucose
+                      readings.
+                    </li>
+                    <li>
+                      Self‑monitoring of blood glucose and/or continuous glucose
+                      monitoring, with education on dose adjustment.
+                    </li>
+                    <li>
+                      Dietary counselling, regular physical activity, and sick‑day
+                      rules to prevent DKA.
+                    </li>
+                    <li>
+                      Periodic screening for eye, kidney, nerve, and
+                      cardiovascular complications.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </motion.section>
+          </div>
+
+          {/* Right: recap / exam focus sidebar */}
+          <motion.aside
+            custom={3}
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            className={`h-fit rounded-3xl p-5 shadow-sm ${
+              isDark
+                ? "border border-slate-700 bg-slate-900/80"
+                : "border border-slate-200 bg-white"
+            }`}
+          >
+            <h2 className="text-lg font-semibold">Exam‑oriented summary</h2>
+            <ul
+              className={`mt-3 space-y-2 text-sm ${
+                isDark ? "text-slate-200" : "text-slate-700"
+              }`}
+            >
+              <li>
+                1. Definition: autoimmune destruction of β‑cells → absolute
+                insulin deficiency → lifelong insulin requirement.
+              </li>
+              <li>
+                2. Etiology: genetic susceptibility + environmental trigger →
+                immune attack on islet β‑cells.
+              </li>
+              <li>
+                3. Clinical triad: polyuria, polydipsia, weight loss; be aware of
+                DKA as an acute emergency.
+              </li>
+              <li>
+                4. Management focus: insulin replacement, patient education,
+                monitoring, and early detection of complications.
+              </li>
+            </ul>
+
+            <div className="mt-4 rounded-2xl bg-emerald-500/10 p-3 text-xs text-emerald-300">
+              <p className="font-semibold text-emerald-200">
+                Quick memory hook
+              </p>
+              <p className="mt-1">
+                “Autoimmune, absent insulin, acute ketoacidosis risk, always
+                needs insulin.”
+              </p>
+            </div>
+
+            <p className="mt-4 text-[11px] text-slate-400">
+              Use this page together with the topics on regulation of blood
+              glucose and diabetes‑related complications for a complete view.
+            </p>
+          </motion.aside>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+export default DiabetesMellitusType1;
